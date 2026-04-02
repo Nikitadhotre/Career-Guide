@@ -142,8 +142,12 @@ public/uploads/
 *.bak
 *.backup
 
-# Package lock files (optional - uncomment if you want to ignore them)
+# Package lock files (optional)
 # package-lock.json
 # yarn.lock
+
+# Frontend and Backend node_modules
+frontend/node_modules/
+backend/node_modules/
 
 .vercel

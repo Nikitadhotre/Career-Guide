@@ -129,7 +129,26 @@ const Quiz = () => {
     );
   }
 
-  const question = questions[currentQuestion];
+  if (!questions.length || !questions[currentQuestion]) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-cyan-50 to-indigo-50 dark:from-gray-900 dark:via-blue-900/20 dark:to-cyan-900/20 flex items-center justify-center transition-colors duration-300">
+        <div className="text-center p-8 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 dark:border-gray-700/50 max-w-md mx-auto">
+          <AlertCircle className="h-16 w-16 text-yellow-500 mx-auto mb-4" />
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">No Questions Available</h2>
+          <p className="text-gray-600 dark:text-gray-300 mb-6">Please try refreshing the page or contact support if the issue persists.</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="bg-gradient-to-r from-blue-600 to-cyan-600 text-white px-6 py-2 rounded-xl hover:shadow-xl transition-all duration-300"
+          >
+            Refresh
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-cyan-50 to-indigo-50 dark:from-gray-900 dark:via-blue-900/20 dark:to-cyan-900/20 py-8 transition-colors duration-300">
@@ -183,34 +202,36 @@ const Quiz = () => {
                 <Zap className="w-5 h-5 text-white" />
               </div>
               <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
-                {question.text}
+                {questions[currentQuestion].text}
               </h2>
+
             </div>
             
+            
             <div className="space-y-4">
-              {question.options.map((option, index) => (
+              {questions[currentQuestion].options.map((option, index) => (
                 <label
                   key={index}
                   className={`flex items-center p-6 border-2 rounded-xl cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-lg ${
-                    answers[question._id] === option.value
+                    answers[questions[currentQuestion]._id] === option.value
                       ? 'border-blue-500 bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 shadow-lg'
                       : 'border-gray-200 dark:border-gray-600 hover:border-blue-300 dark:hover:border-blue-400'
                   }`}
                 >
                   <input
                     type="radio"
-                    name={`question-${question._id}`}
+                    name={`question-${questions[currentQuestion]._id}`}
                     value={option.value}
-                    checked={answers[question._id] === option.value}
-                    onChange={() => handleAnswerSelect(question._id, option.value)}
+                    checked={answers[questions[currentQuestion]._id] === option.value}
+                    onChange={() => handleAnswerSelect(questions[currentQuestion]._id, option.value)}
                     className="sr-only"
                   />
-                  <div className={`w-5 h-5 border-2 rounded-full mr-4 flex items-center justify-center transition-all duration-300 ${
-                    answers[question._id] === option.value
+                  <div className={`w-5 h-5 border-2 r;ounded-full mr-4 flex items-center justify-center transition-all duration-300 ${
+                    answers[questions[currentQuestion]._id] === option.value
                       ? 'border-blue-500 bg-blue-500 shadow-lg'
                       : 'border-gray-300 dark:border-gray-500'
                   }`}>
-                    {answers[question._id] === option.value && (
+                    {answers[questions[currentQuestion]._id] === option.value && (
                       <div className="w-2 h-2 bg-white rounded-full"></div>
                     )}
                   </div>
@@ -218,6 +239,7 @@ const Quiz = () => {
                 </label>
               ))}
             </div>
+
           </div>
         </div>
 
